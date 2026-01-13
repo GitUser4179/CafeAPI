@@ -51,6 +51,12 @@ namespace CafeAPI
                 return product;
             });
 
+            app.MapGet("/products/{id}", (int id) =>
+            {
+                var product = products.FirstOrDefault(p => p.Id == id);
+                return product;
+            });
+
             app.Run();
         }
     }
