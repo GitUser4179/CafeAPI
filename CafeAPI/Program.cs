@@ -34,8 +34,6 @@ namespace CafeAPI
 
             app.UseAuthorization();
 
-            app.Run();
-
             List<Category> categories = InitService.InitializeCategories();
 
             List<Product> products = InitService.InitializeProducts();
@@ -53,6 +51,7 @@ namespace CafeAPI
                 return product;
             });
 
+            app.Run();
         }
     }
 }

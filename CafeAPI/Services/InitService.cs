@@ -28,12 +28,10 @@ namespace CafeAPI.Services
 
         public static List<Product> InitializeProducts()
         {
-            int index = 1;
-
             List<Product> products = new();
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 1,
                 Name = "Espresso",
                 Price = 25,
                 CategoryId = 1,
@@ -41,7 +39,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 2,
                 Name = "Cappuccino",
                 Price = 35,
                 CategoryId = 1,
@@ -49,7 +47,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 3,
                 Name = "Latte",
                 Price = 40,
                 CategoryId = 1,
@@ -57,7 +55,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 4,
                 Name = "Earl Grey Tea",
                 Price = 30,
                 CategoryId = 2,
@@ -65,7 +63,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 5,
                 Name = "Green Tea",
                 Price = 30,
                 CategoryId = 2,
@@ -73,7 +71,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 6,
                 Name = "Cinnamon Bun",
                 Price = 25,
                 CategoryId = 3,
@@ -81,7 +79,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 7,
                 Name = "Croissant",
                 Price = 28,
                 CategoryId = 3,
@@ -89,7 +87,7 @@ namespace CafeAPI.Services
 
             products.Add(new Product
             {
-                Id = index + 1,
+                Id = 8,
                 Name = "Americano",
                 Price = 30,
                 CategoryId = 1,
