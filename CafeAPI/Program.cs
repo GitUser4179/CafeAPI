@@ -39,79 +39,99 @@ namespace CafeAPI
 
             List<Product> products = InitService.InitializeProducts();
 
-            app.MapGet("/products", () =>
+            app.MapGet("/products", (CafeApiDbContext db) =>
             {
-                return products;
+                var retrievedProducts = db.Products.ToList();
+                return retrievedProducts;
             });
 
-            app.MapPost("/products", (Product product) =>
+            app.MapPost("/products", (Product product, CafeApiDbContext db) =>
             {
-                product.Id = products.Any() ? products.Max(p => p.Id) + 1 : 1;
-                products.Add(product);
+                product.Id = db.Products.Any() ? db.Products.Max(p => p.Id) + 1 : 1;
+
+                db.Products.Add(product);
+                db.SaveChanges();
                 return product;
             });
 
-            app.MapGet("/products/{id}", (int id) =>
+            app.MapGet("/products/{id}", (int id, Product product, CafeApiDbContext db) =>
             {
-                var product = products.FirstOrDefault(p => p.Id == id);
+                var retrievedProduct = db.Products.FirstOrDefault(p => p.Id == id);
+
                 return product;
             });
 
-            app.MapPut("/products/{id}", (int id, Product inputTodo, CafeApiDbContext db) =>
+            app.MapPut("/products/{id}", (int id, Product selectedProduct, CafeApiDbContext db) =>
             {
-                var todo = products.FirstOrDefault(p => p.Id == id);
-                    
-                todo.Name = inputTodo.Name;
-                todo.Price = inputTodo.Price;
-                todo.Category = inputTodo.Category;
+                var fetchedProduct = db.Products.FirstOrDefault(p => p.Id == id);
 
-                return todo;
+                fetchedProduct.Name = selectedProduct.Name;
+                fetchedProduct.Price = selectedProduct.Price;
+                fetchedProduct.Category = selectedProduct.Category;
+
+                db.Products.Update(selectedProduct);
+                db.SaveChanges();
+                return selectedProduct;
             });
 
-            app.MapDelete("/products/{id}", (int id) =>
+            app.MapDelete("/products/{id}", (int id, CafeApiDbContext db) =>
             {
-                products.Remove(products.FirstOrDefault(p => p.Id == id));
+                var prod = db.Products.FirstOrDefault(p => p.Id == id);
+
+                db.Products.Remove(prod);
+                db.SaveChanges();
                 return products;
             });
             // Categories
 
-            app.MapGet("/categories", () =>
+            app.MapGet("/categories", (CafeApiDbContext db) =>
             {
-                return categories;
+                var fethcedCategories = db.Categories.ToList();
+
+                return fethcedCategories;
             });
 
-            app.MapPost("/categories", (Category category) =>
+            app.MapPost("/categories", (Category category, CafeApiDbContext db) =>
             {
-                category.Id = categories.Any() ? categories.Max(p => p.Id) + 1 : 1;
-                categories.Add(category);
+                category.Id = db.Categories.Any() ? db.Categories.Max(p => p.Id) + 1 : 1;
+
+                db.Categories.Add(category);
                 return category;
             });
 
-            app.MapGet("/categories/{id}", (int id) =>
+            app.MapGet("/categories/{id}", (int id, CafeApiDbContext db) =>
             {
-                var category = categories.FirstOrDefault(p => p.Id == id);
+                var category = db.Categories.FirstOrDefault(p => p.Id == id);
                 return category;
             });
 
-            app.MapPut("/categories/{id}", (int id, Category inputTodo, CafeApiDbContext db) =>
+            app.MapPut("/categories/{id}", (int id, Category selectedCategory, CafeApiDbContext db) =>
             {
-                var todo = categories.FirstOrDefault(p => p.Id == id);
+                var fetchedCategory = db.Categories.FirstOrDefault(p => p.Id == id);
+                fetchedCategory.Name = selectedCategory.Name;
 
-                todo.Name = inputTodo.Name;
 
-                return todo;
+                db.Categories.Update(selectedCategory);
+                db.SaveChanges();
+
+                return fetchedCategory;
             });
 
-            app.MapGet("/categories/{id}/products", (int id) =>
+            app.MapGet("/categories/{id}/products", (int id, CafeApiDbContext db) =>
             {
-                var category = categories.FirstOrDefault(p => p.Id == id);
-                var product = products.Where(p => p.CategoryId == id).ToList();
+                var category = db.Categories.FirstOrDefault(p => p.Id == id);
+                var product = db.Products.Where(p => p.CategoryId == id).ToList();
+
+
                 return product;
             });
 
-            app.MapDelete("/categories/{id}", (int id) =>
+            app.MapDelete("/categories/{id}", (int id, CafeApiDbContext db) =>
             {
-                categories.Remove(categories.FirstOrDefault(p => p.Id == id));
+                var selectedCategories = categories.FirstOrDefault(p => p.Id == id);
+
+
+                categories.Remove(selectedCategories);
                 return categories;
             });
 
