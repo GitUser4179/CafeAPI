@@ -2,6 +2,7 @@ using CafeAPI.Data;
 using CafeAPI.Models;
 using CafeAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace CafeAPI
 {
@@ -55,6 +56,17 @@ namespace CafeAPI
             {
                 var product = products.FirstOrDefault(p => p.Id == id);
                 return product;
+            });
+
+            app.MapPut("/products/{id}", (int id, Product inputTodo, CafeApiDbContext db) =>
+            {
+                var todo = products.FirstOrDefault(p => p.Id == id);
+
+                todo.Name = inputTodo.Name;
+                todo.Price = inputTodo.Price;
+                todo.Category = inputTodo.Category;
+
+                return todo;
             });
 
             app.Run();
