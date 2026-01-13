@@ -13,6 +13,26 @@ namespace CafeAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId);
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(p => p.Name)
+                .IsRequired();
+
+                entity.Property(p => p.Price)
+                .IsRequired();
+
+                entity.Property(p => p.CategoryId)
+                .IsRequired();
+
+                entity.HasIndex(p => p.Name)
+                .IsUnique();
+            });
+
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Coffee"},
                 new Category { Id = 2, Name = "Tea"},
